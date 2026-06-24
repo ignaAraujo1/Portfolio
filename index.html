@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ignacio Araujo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0d1117;
+      --card: #161b22;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --blue: #58a6ff;
+      --green: #3fb950;
+      --purple: #bc8cff;
+      --orange: #ffa657;
+      --red: #f85149;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 3px;
+    }
+
+    /* ── NAV ─────────────────────────────── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(13, 17, 23, .9);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+    }
+
+    .nav-in {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav-logo {
+      color: var(--green);
+      font-weight: 700;
+      font-size: .9rem;
+    }
+
+    .nav-logo span {
+      color: var(--muted);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 24px;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: .78rem;
+      transition: color .15s;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    /* ── LAYOUT ──────────────────────────── */
+    .wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    section {
+      padding: 56px 0;
+    }
+
+    /* ── HERO ────────────────────────────── */
+    #hero {
+      padding-top: 72px;
+    }
+
+    .terminal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .t-bar {
+      background: #21262d;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+
+    .dot-r {
+      background: var(--red);
+    }
+
+    .dot-y {
+      background: var(--orange);
+    }
+
+    .dot-g {
+      background: var(--green);
+    }
+
+    .t-filename {
+      color: var(--muted);
+      font-size: .75rem;
+      margin-left: 8px;
+    }
+
+    .t-body {
+      padding: 28px 28px 34px;
+    }
+
+    .prompt {
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .p-user {
+      color: var(--green);
+    }
+
+    .p-at {
+      color: var(--muted);
+    }
+
+    .p-dir {
+      color: var(--blue);
+    }
+
+    .p-sym {
+      color: var(--muted);
+    }
+
+    .p-cmd {
+      color: var(--text);
+    }
+
+    .output {
+      margin: 10px 0 24px;
+    }
+
+    .out-name {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -.5px;
+      line-height: 1.2;
+    }
+
+    .out-name em {
+      color: var(--blue);
+      font-style: normal;
+    }
+
+    .out-role {
+      color: var(--muted);
+      font-size: .88rem;
+      margin: 8px 0 14px;
+    }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: .7rem;
+      border: 1px solid;
+    }
+
+    .t-blue {
+      color: var(--blue);
+      background: rgba(88, 166, 255, .07);
+      border-color: rgba(88, 166, 255, .3);
+    }
+
+    .t-green {
+      color: var(--green);
+      background: rgba(63, 185, 80, .07);
+      border-color: rgba(63, 185, 80, .3);
+    }
+
+    .t-purple {
+      color: var(--purple);
+      background: rgba(188, 140, 255, .07);
+      border-color: rgba(188, 140, 255, .3);
+    }
+
+    .t-orange {
+      color: var(--orange);
+      background: rgba(255, 166, 87, .07);
+      border-color: rgba(255, 166, 87, .3);
+    }
+
+    .cursor {
+      display: inline-block;
+      width: 9px;
+      height: 1.05em;
+      background: var(--blue);
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+      margin-left: 2px;
+    }
+
+    @keyframes blink {
+      50% {
+        opacity: 0;
+      }
+    }
+
+    /* ── SECTION CMD ─────────────────────── */
+    .sec-cmd {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .sec-cmd .dollar {
+      color: var(--green);
+    }
+
+    .sec-cmd .cmd {
+      color: var(--blue);
+      font-weight: 500;
+    }
+
+    .sec-cmd .arg {
+      color: var(--orange);
+    }
+
+    /* ── PROJECTS ────────────────────────── */
+    .proj-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .proj-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color .2s;
+    }
+
+    .proj-card:hover {
+      border-color: rgba(88, 166, 255, .45);
+    }
+
+    .proj-card.open {
+      border-color: var(--blue);
+    }
+
+    .proj-head {
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      gap: 12px;
+    }
+
+    .proj-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      flex: 1;
+    }
+
+    .proj-perms {
+      color: var(--muted);
+      font-size: .7rem;
+      flex-shrink: 0;
+    }
+
+    .proj-ico {
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    .proj-name {
+      color: var(--blue);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .proj-sep {
+      color: var(--muted);
+      margin: 0 2px;
+      flex-shrink: 0;
+    }
+
+    .proj-langs {
+      color: var(--muted);
+      font-size: .76rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .proj-arrow {
+      color: var(--muted);
+      font-size: .8rem;
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+
+    .proj-card.open .proj-arrow {
+      transform: rotate(90deg);
+    }
+
+    .proj-body {
+      display: none;
+      padding: 0 18px 22px;
+      border-top: 1px solid var(--border);
+    }
+
+    .proj-card.open .proj-body {
+      display: block;
+    }
+
+    .proj-desc {
+      color: var(--muted);
+      font-size: .84rem;
+      line-height: 1.8;
+      margin: 16px 0 14px;
+    }
+
+    .proj-desc strong {
+      color: var(--text);
+    }
+
+    .proj-feats {
+      list-style: none;
+      margin-bottom: 16px;
+    }
+
+    .proj-feats li {
+      color: var(--text);
+      font-size: .81rem;
+      padding: 2px 0;
+    }
+
+    .proj-feats li::before {
+      content: '❯ ';
+      color: var(--green);
+    }
+
+    .proj-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 18px;
+    }
+
+    .stk {
+      background: rgba(88, 166, 255, .07);
+      border: 1px solid rgba(88, 166, 255, .2);
+      color: var(--blue);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: .7rem;
+    }
+
+    .proj-links {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .plink {
+      padding: 6px 14px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: .8rem;
+      transition: border-color .15s, color .15s;
+      font-family: inherit;
+    }
+
+    .plink:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .plink.primary {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .plink.primary:hover {
+      background: rgba(63, 185, 80, .07);
+      text-decoration: none;
+    }
+
+    .plink.dim {
+      color: var(--muted);
+      cursor: default;
+    }
+
+    .plink.dim:hover {
+      border-color: var(--border);
+      color: var(--muted);
+    }
+
+    /* ── SKILLS ──────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+    }
+
+    .skill-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 18px;
+    }
+
+    .skill-title {
+      color: var(--muted);
+      font-size: .68rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      margin-bottom: 12px;
+    }
+
+    .skill-items {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .skill-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .81rem;
+      color: var(--text);
+    }
+
+    .sk {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .sk-g {
+      background: var(--green);
+    }
+
+    .sk-b {
+      background: var(--blue);
+    }
+
+    .sk-p {
+      background: var(--purple);
+    }
+
+    .sk-o {
+      background: var(--orange);
+    }
+
+    /* ── CONTACT ─────────────────────────── */
+    .contact-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 44px;
+      text-align: center;
+    }
+
+    .contact-name {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+
+    .contact-sub {
+      color: var(--muted);
+      font-size: .84rem;
+      margin-bottom: 26px;
+    }
+
+    .contact-btns {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .cbtn {
+      padding: 9px 22px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: inherit;
+      font-size: .81rem;
+      background: transparent;
+      cursor: pointer;
+      transition: border-color .15s, color .15s;
+    }
+
+    .cbtn:hover {
+      border-color: var(--blue);
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    .cbtn.primary {
+      border-color: var(--green);
+      color: var(--green);
+    }
+
+    .cbtn.primary:hover {
+      background: rgba(63, 185, 80, .07);
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 22px 0;
+      text-align: center;
+      color: var(--muted);
+      font-size: .7rem;
+    }
+
+    /* ── RESPONSIVE ──────────────────────── */
+    @media (max-width: 560px) {
+      .proj-perms {
+        display: none;
+      }
+
+      .proj-langs {
+        display: none;
+      }
+
+      .contact-box {
+        padding: 28px 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-in">
+      <div class="nav-logo">ignacio_araujo<span>.dev</span></div>
+      <div class="nav-links">
+        <a href="#projects">proyectos</a>
+        <a href="#skills">stack</a>
+        <a href="#contact">contacto</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="wrap">
+      <div class="terminal">
+        <div class="t-bar">
+          <div class="dot dot-r"></div>
+          <div class="dot dot-y"></div>
+          <div class="dot dot-g"></div>
+          <span class="t-filename">bash — ~/portfolio</span>
+        </div>
+        <div class="t-body">
+
+          <div class="prompt">
+            <span class="p-user">ignacio</span><span class="p-at">@</span><span class="p-dir">portfolio</span>
+            <span class="p-sym">$</span>
+            <span class="p-cmd">whoami</span>
+          </div>
+
+          <div class="output">
+            <div class="out-name"><em>Ignacio</em> Araujo</div>
+            <div class="out-role">
+              Estudiante avanzado · Ingeniería Informática &nbsp;|&nbsp; Buenos Aires
+            </div>
+            <div class="tags">
+              <span class="tag t-orange">Backend · Java · Python</span>
+              <span class="tag t-green">Algoritmos &amp; Grafos</span>
+              <span class="tag t-purple">IA Local · LLMs</span>
+              <span class="tag t-blue">Spring Boot · PostgreSQL</span>
+            </div>
+          </div>
+
+          <div class="prompt">
+            <span class="p-user">ignacio</span><span class="p-at">@</span><span class="p-dir">portfolio</span>
+            <span class="p-sym">$</span>
+            <span class="p-cmd" id="typed"></span><span class="cursor"></span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="sec-cmd">
+        <span class="dollar">$</span>
+        <span class="cmd">ls</span>
+        <span class="arg">-la projects/</span>
+      </div>
+
+      <div class="proj-list">
+
+        <!-- Albion / DDraigi -->
+        <div class="proj-card" onclick="toggle(this)">
+          <div class="proj-head">
+            <div class="proj-left">
+              <span class="proj-perms">drwxr-xr-x</span>
+              <span class="proj-ico">🐉</span>
+              <span class="proj-name">Albion</span>
+              <span class="proj-sep">/</span>
+              <span class="proj-langs">Python · Kotlin · Whisper · Ollama · Wear OS</span>
+            </div>
+            <span class="proj-arrow">❯</span>
+          </div>
+          <div class="proj-body">
+            <p class="proj-desc">
+              Asistente de voz personal tipo Jarvis que corre <strong>100% local</strong>, sin ninguna dependencia de
+              servicios cloud.
+              Implementa un pipeline completo de voz a respuesta: wakeword detection → STT → clasificación de intención
+              con LLM → TTS.
+              Extendido con una app Wear OS para controlarlo desde un smartwatch Samsung Galaxy Watch 6 Classic vía
+              WebSocket.
+            </p>
+            <ul class="proj-feats">
+              <li>Hotword detection con OpenWakeWord — modelo ONNX custom entrenado</li>
+              <li>Transcripción en tiempo real con Faster-Whisper sobre GPU NVIDIA (CUDA)</li>
+              <li>Clasificación de intención con Ollama / Mistral 7B-Instruct, inferencia local</li>
+              <li>TTS con Piper · control de Spotify · búsqueda web privada con SearXNG (Docker)</li>
+              <li>App Wear OS en Kotlin: streaming de audio float32 @16kHz via WebSocket</li>
+              <li>Sistema de skills extensible: música, clima, tareas, investigación web, sistema</li>
+            </ul>
+            <div class="proj-stack">
+              <span class="stk">Python</span>
+              <span class="stk">Kotlin</span>
+              <span class="stk">Faster-Whisper</span>
+              <span class="stk">Ollama</span>
+              <span class="stk">OpenWakeWord</span>
+              <span class="stk">WebSocket</span>
+              <span class="stk">Docker</span>
+              <span class="stk">CUDA</span>
+              <span class="stk">Wear OS</span>
+              <span class="stk">Spotify API</span>
+            </div>
+            <div class="proj-links">
+              <a class="plink primary" href="https://github.com/ignaAraujo1/dragoncito" target="_blank">
+                Ver en GitHub ↗
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recomendify -->
+        <div class="proj-card" onclick="toggle(this)">
+          <div class="proj-head">
+            <div class="proj-left">
+              <span class="proj-perms">drwxr-xr-x</span>
+              <span class="proj-ico">🎵</span>
+              <span class="proj-name">recomendify</span>
+              <span class="proj-sep">/</span>
+              <span class="proj-langs">Python · Grafos · PageRank · BFS · DFS · Backtracking</span>
+            </div>
+            <span class="proj-arrow">❯</span>
+          </div>
+          <div class="proj-body">
+            <p class="proj-desc">
+              Motor de recomendación de música construido sobre un <strong>grafo bipartito ponderado</strong>
+              usuario–canción–playlist con datos reales de Spotify. Implementación propia de algoritmos clásicos de
+              teoría de grafos
+              aplicados a un problema real de recomendación, sin librerías externas de grafos.
+            </p>
+            <ul class="proj-feats">
+              <li>Grafo dirigido/no dirigido implementado desde cero con diccionarios de adyacencia</li>
+              <li>PageRank clásico convergente — 52 iteraciones, d=0.85 según paper de la cátedra</li>
+              <li>PageRank personalizado via random walk (10 000 iteraciones) para recomendaciones por contexto</li>
+              <li>BFS para camino más corto entre canciones con reconstrucción de path y playlist</li>
+              <li>DFS con backtracking para detección de ciclos de longitud exacta N</li>
+              <li>Heap para ranking eficiente O(k log n) — top-K canciones o usuarios</li>
+            </ul>
+            <div class="proj-stack">
+              <span class="stk">Python</span>
+              <span class="stk">Grafos</span>
+              <span class="stk">PageRank</span>
+              <span class="stk">Random Walk</span>
+              <span class="stk">BFS / DFS</span>
+              <span class="stk">Backtracking</span>
+              <span class="stk">Heaps</span>
+            </div>
+            <div class="proj-links">
+              <span class="plink dim">Código disponible a pedido</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tanques -->
+        <div class="proj-card" onclick="toggle(this)">
+          <div class="proj-head">
+            <div class="proj-left">
+              <span class="proj-perms">drwxr-xr-x</span>
+              <span class="proj-ico">🎮</span>
+              <span class="proj-name">tanques</span>
+              <span class="proj-sep">/</span>
+              <span class="proj-langs">Java · MVC · Strategy · Observer · POO</span>
+            </div>
+            <span class="proj-arrow">❯</span>
+          </div>
+          <div class="proj-body">
+            <p class="proj-desc">
+              Juego estilo Battle City desarrollado en Java aplicando <strong>POO y patrones de diseño</strong> de forma
+              rigurosa.
+              Separación clara entre modelo, vista y controlador; lógica de enemigos y sistema de eventos completamente
+              desacoplados.
+              Editor de niveles propio implementado en Python.
+            </p>
+            <ul class="proj-feats">
+              <li>Arquitectura MVC — separación estricta de responsabilidades</li>
+              <li>Patrón Strategy para IA de enemigos: comportamientos intercambiables en runtime</li>
+              <li>Patrón Observer para sistema de eventos con listeners tipados</li>
+              <li>Editor de niveles en Python integrado al pipeline de carga del juego</li>
+            </ul>
+            <div class="proj-stack">
+              <span class="stk">Java</span>
+              <span class="stk">MVC</span>
+              <span class="stk">Strategy Pattern</span>
+              <span class="stk">Observer Pattern</span>
+              <span class="stk">POO</span>
+              <span class="stk">Python</span>
+            </div>
+            <div class="proj-links">
+              <span class="plink dim">Proyecto grupal — código disponible a pedido</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Marketing MVP -->
+        <div class="proj-card" onclick="toggle(this)">
+          <div class="proj-head">
+            <div class="proj-left">
+              <span class="proj-perms">drwxr-xr-x</span>
+              <span class="proj-ico">📊</span>
+              <span class="proj-name">marketing-mvp</span>
+              <span class="proj-sep">/</span>
+              <span class="proj-langs">Spring Boot · PostgreSQL · REST API · Java</span>
+            </div>
+            <span class="proj-arrow">❯</span>
+          </div>
+          <div class="proj-body">
+            <p class="proj-desc">
+              MVP funcional para gestión de marketing y ventas construido con stack Java empresarial.
+              Modelo relacional completo en PostgreSQL, API REST documentada y lógica de negocio en Spring Boot.
+              Deployado y corriendo en producción.
+            </p>
+            <ul class="proj-feats">
+              <li>REST API con Spring Boot — endpoints de CRUD y lógica de negocio</li>
+              <li>Persistencia con PostgreSQL — diseño de esquema relacional y queries optimizadas</li>
+              <li>Gestión de pipeline de ventas y métricas de marketing</li>
+              <li>Deploy en producción sobre servidor Linux</li>
+            </ul>
+            <div class="proj-stack">
+              <span class="stk">Java</span>
+              <span class="stk">Spring Boot</span>
+              <span class="stk">PostgreSQL</span>
+              <span class="stk">REST API</span>
+              <span class="stk">Linux</span>
+            </div>
+            <div class="proj-links">
+              <span class="plink dim">Resumen técnico disponible a pedido</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="wrap">
+      <div class="sec-cmd">
+        <span class="dollar">$</span>
+        <span class="cmd">cat</span>
+        <span class="arg">stack.json</span>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-title">Lenguajes</div>
+          <div class="skill-items">
+            <div class="skill-item">
+              <div class="sk sk-g"></div>Python
+            </div>
+            <div class="skill-item">
+              <div class="sk sk-b"></div>Java
+            </div>
+            <div class="skill-item">
+              <div class="sk sk-p"></div>Kotlin
+            </div>
+            <div class="skill-item">
+              <div class="sk sk-o"></div>SQL
+            </div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-title">Backend &amp; APIs</div>
+          <div class="skill-items">
+            <div class="skill-item">
+              <div class="sk sk-g"></div>Spring Boot
+            </div>
+            <div class="skill-item">
+              <div class="sk sk-b"></div>FastAPI
+            </div>
+            <div class="skill-item">
+              <div class="sk sk-p"></div>REST · WebSocket
+            </div>
+            <div class="skill-item">
+              <div class="sk sk-o"></div>PostgreSQL
+            </div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-title">Algoritmos &amp; CS</div>
+          <div class="skill-items">
+            <div class="skill-item">
+              <div class="sk sk-g"></div>Grafos · PageRank · BFS · DFS
+            </div>
+            <div class="skill-item">
+              <div class="sk sk-b"></div>Backtracking · Heaps
+            </div>
+            <div class="skill-item">
+              <div class="sk sk-p"></div>Patrones de diseño (MVC, Strategy, Observer)
+            </div>
+            <div class="skill-item">
+              <div class="sk sk-o"></div>POO · estructuras de datos
+            </div>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="skill-title">IA &amp; Sistemas</div>
+          <div class="skill-items">
+            <div class="skill-item">
+              <div class="sk sk-g"></div>LLMs locales (Ollama · Mistral)
+            </div>
+            <div class="skill-item">
+              <div class="sk sk-b"></div>Whisper · STT · TTS · pipelines de audio
+            </div>
+            <div class="skill-item">
+              <div class="sk sk-p"></div>CUDA · inferencia GPU
+            </div>
+            <div class="skill-item">
+              <div class="sk sk-o"></div>Docker · Git · Linux · Android
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="sec-cmd">
+        <span class="dollar">$</span>
+        <span class="cmd">cat</span>
+        <span class="arg">contact.txt</span>
+      </div>
+      <div class="contact-box">
+        <div class="contact-name">Ignacio Araujo</div>
+        <div class="contact-sub">
+          Estudiante avanzado de Ingeniería Informática &nbsp;·&nbsp; Buenos Aires
+        </div>
+        <div class="contact-btns">
+          <a class="cbtn primary" href="mailto:araujonacho01@gmail.com">
+            araujonacho01@gmail.com
+          </a>
+          <a class="cbtn" href="https://github.com/ignaAraujo1" target="_blank">
+            GitHub ↗
+          </a>
+          <a class="cbtn" href="https://www.linkedin.com/in/ignaaraujo2/" target="_blank">
+            LinkedIn ↗
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">ignacio_araujo · 2026</div>
+  </footer>
+
+  <script>
+    function toggle(card) {
+      card.classList.toggle('open');
+    }
+
+    // typewriter en el hero
+    const el = document.getElementById('typed');
+    const text = 'ls -la projects/';
+    let i = 0;
+    function type() {
+      if (i < text.length) {
+        el.textContent += text[i++];
+        setTimeout(type, 55 + Math.random() * 45);
+      }
+    }
+    setTimeout(type, 900);
+  </script>
+</body>
+
+</html>
